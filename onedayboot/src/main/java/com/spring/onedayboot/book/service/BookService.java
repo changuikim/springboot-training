@@ -1,7 +1,9 @@
 package com.spring.onedayboot.book.service;
 
 import com.spring.onedayboot.book.dto.BookCreateRequest;
+import com.spring.onedayboot.book.dto.BookEditResponse;
 import com.spring.onedayboot.book.dto.BookReadResponse;
+import com.spring.onedayboot.book.dto.BookUpdateRequest;
 
 import java.util.NoSuchElementException;
 
@@ -20,4 +22,19 @@ public interface BookService {
      * @throws NoSuchElementException 조회된 책이 없을 때
      */
     public BookReadResponse readBook(Integer bookId) throws NoSuchElementException;
+
+    /**
+     * 수정할 책을 조회한다.
+     * @param bookId 수정할 책의 id
+     * @return 수정할 책의 정보를 담은 DTO
+     * @throws NoSuchElementException 수정할 책이 없을 때
+     */
+    public BookEditResponse editBook(Integer bookId) throws NoSuchElementException;
+
+    /**
+     * 책 정보를 수정한다.
+     * @param request 수정할 책 정보를 담은 DTO
+     * @throws NoSuchElementException 수정할 책이 없을 때
+     */
+    public void updateBook(BookUpdateRequest request) throws NoSuchElementException;
 }

@@ -2,6 +2,8 @@ package com.spring.onedayboot.book.service;
 
 import com.spring.onedayboot.book.dto.BookCreateRequest;
 import com.spring.onedayboot.book.dto.BookReadResponse;
+import com.spring.onedayboot.book.dto.BookEditResponse;
+import com.spring.onedayboot.book.dto.BookUpdateRequest;
 import com.spring.onedayboot.book.entity.Book;
 import com.spring.onedayboot.book.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,4 +49,31 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() -> new NoSuchElementException("책 정보를 찾을 수 없습니다."));
         return BookReadResponse.fromBook(book);
     }
+
+    /**
+     * 수정할 책을 조회한다.
+     * @param bookId 수정할 책의 id
+     * @return 수정할 책의 정보를 담은 DTO
+     * @throws NoSuchElementException 수정할 책이 없을 때
+     */
+    @Override
+    public BookEditResponse editBook(Integer bookId) throws NoSuchElementException {
+        Book book = this.bookRepository.findById(bookId)
+                .orElseThrow(() -> new NoSuchElementException("책 정보를 찾을 수 없습니다."));
+        return BookEditResponse.fromBook(book);
+    }
+
+    /**
+     * 책 정보를 수정한다.
+     * @param request 수정할 책 정보를 담은 DTO
+     * @throws NoSuchElementException 수정할 책이 없을 때
+     */
+    @Override
+    public void updateBook(BookUpdateRequest request) throws NoSuchElementException {
+        Book book = this.bookRepository.findById(request.getBookId())
+                .orElseThrow(() -> new NoSuchElementException("책 정보를 찾을 수 없습니다."));
+        Book updatedBook = request.update(book);
+        this.bookRepository.save(updatedBook);
+    }
+
 }

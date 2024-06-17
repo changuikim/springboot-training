@@ -37,4 +37,11 @@ public interface BookService {
      * @throws NoSuchElementException 수정할 책이 없을 때
      */
     public void updateBook(BookUpdateRequest request) throws NoSuchElementException;
+
+    /**
+     * 책을 삭제한다.
+     * @param bookId 삭제할 책의 id
+     * @throws NoSuchElementException 삭제할 책이 없을 때
+     */
+    public void deleteBook(Integer bookId) throws NoSuchElementException;
 }

@@ -10,7 +10,6 @@
   <p>가격 : <span th:text="${#numbers.formatInteger(book.price, 3, 'COMMA')}"></span></p>
   <p>입력일 : <span th:text="${#temporals.format(book.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
   <p><a th:text="수정" th:href="@{/book/edit/{id}(id=${book.bookId})}"></a></p>
-  <p><a th:text="삭제" th:href="@{/book/delete/{id}(id=${book.bookId})}"></a></p>
   <form method="post" th:action="@{/book/delete}" th:object="${book}">
     <input type="hidden" th:name="bookId" th:value="*{bookId}" />
     <input type="submit" value="삭제" />

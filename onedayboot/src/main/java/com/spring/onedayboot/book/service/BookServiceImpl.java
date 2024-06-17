@@ -76,4 +76,16 @@ public class BookServiceImpl implements BookService {
         this.bookRepository.save(updatedBook);
     }
 
+    /**
+     * 책을 삭제한다.
+     * @param bookId 삭제할 책의 id
+     * @throws NoSuchElementException 삭제할 책이 없을 때
+     */
+    @Override
+    public void deleteBook(Integer bookId) throws NoSuchElementException {
+        Book book = this.bookRepository.findById(bookId)
+                .orElseThrow(() -> new NoSuchElementException("책 정보를 찾을 수 없습니다."));
+        this.bookRepository.delete(book);
+    }
+
 }

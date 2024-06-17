@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.NoSuchElementException;
@@ -103,6 +100,18 @@ public class BookController {
     }
 
     /**
+     * 책을 삭제한다.
+     * @param bookId 삭제할 책의 id
+     * @return 책 목록 페이지로 이동
+     */
+    @RequestMapping( method = RequestMethod.POST, value = "/book/delete")
+    public String delete(@RequestParam("bookId") Integer bookId) throws NoSuchElementException {
+        System.out.println("bookId = " + bookId);
+        this.bookService.deleteBook(bookId);
+        return "redirect:/book/list";
+    }
+
+    /**
      * NoSuchElementException 예외 처리 핸들러
      * @param e NoSuchElementException 예외     *
      */
@@ -125,4 +134,5 @@ public class BookController {
         mav.addObject("location", location);
         return mav;
     }
+
 }

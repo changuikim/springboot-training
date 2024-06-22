@@ -1,10 +1,9 @@
 package com.spring.onedayboot.book.service;
 
-import com.spring.onedayboot.book.dto.BookCreateRequest;
-import com.spring.onedayboot.book.dto.BookEditResponse;
-import com.spring.onedayboot.book.dto.BookReadResponse;
-import com.spring.onedayboot.book.dto.BookUpdateRequest;
+import com.spring.onedayboot.book.dto.*;
+import org.springframework.data.domain.Sort;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public interface BookService {
@@ -44,4 +43,15 @@ public interface BookService {
      * @throws NoSuchElementException 삭제할 책이 없을 때
      */
     public void deleteBook(Integer bookId) throws NoSuchElementException;
+
+    /**
+     * 책을 검색한다.
+     * @param title 검색할 책 제목
+     * @param page 페이지 번호
+     * @param size 페이지 크기
+     * @param direction 정렬 방향
+     * @return 검색된 책 정보를 담은 DTO 리스트
+     */
+    public List<BookListResponse> searchBooks(String title, Integer page, Integer size, Sort.Direction direction);
+
 }

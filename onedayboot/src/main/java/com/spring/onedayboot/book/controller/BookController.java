@@ -1,11 +1,9 @@
 package com.spring.onedayboot.book.controller;
 
-import com.spring.onedayboot.book.dto.BookCreateRequest;
-import com.spring.onedayboot.book.dto.BookEditResponse;
-import com.spring.onedayboot.book.dto.BookReadResponse;
-import com.spring.onedayboot.book.dto.BookUpdateRequest;
+import com.spring.onedayboot.book.dto.*;
 import com.spring.onedayboot.book.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -13,9 +11,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+@RequestMapping("/book")
 @Controller
 public class BookController {
 
@@ -30,7 +30,7 @@ public class BookController {
      * 책 등록 페이지로 이동한다.
      * @return 책 등록 페이지
      */
-    @RequestMapping( method = RequestMethod.GET, value = "/book/create")
+    @RequestMapping( method = RequestMethod.GET, value = "/create")
     public String create() {
         return "book/create";
     }
@@ -40,7 +40,7 @@ public class BookController {
      * @param request 책 등록 정보를 담은 DTO
      * @return 등록된 책 조회 페이지로 이동
      */
-    @RequestMapping( method = RequestMethod.POST, value = "/book/create")
+    @RequestMapping( method = RequestMethod.POST, value = "/create")
     public String create(BookCreateRequest request) {
         Integer bookId = this.bookService.createBook(request);
         return String.format("redirect:/book/read/%d", bookId);
@@ -51,7 +51,7 @@ public class BookController {
      * @param bookId 조회할 책의 id
      * @return 책 조회 페이지
      */
-    @RequestMapping( method = RequestMethod.GET, value = "/book/read/{bookId}")
+    @RequestMapping( method = RequestMethod.GET, value = "/read/{bookId}")
     public ModelAndView read(@PathVariable Integer bookId) {
         ModelAndView mav = new ModelAndView();
         try {
@@ -72,7 +72,7 @@ public class BookController {
      * @param bookId 수정할 책의 id
      * @return 책 수정 페이지
      */
-    @RequestMapping( method = RequestMethod.GET, value = "/book/edit/{bookId}")
+    @RequestMapping( method = RequestMethod.GET, value = "/edit/{bookId}")
     public ModelAndView edit(@PathVariable Integer bookId) throws NoSuchElementException {
         ModelAndView mav = new ModelAndView();
         BookEditResponse response = this.bookService.editBook(bookId);
@@ -86,7 +86,7 @@ public class BookController {
      * @param request 수정할 책 정보를 담은 DTO
      * @return 수정된 책 조회 페이지로 이동
      */
-    @RequestMapping( method = RequestMethod.POST, value = "/book/edit/{bookId}")
+    @RequestMapping( method = RequestMethod.POST, value = "/edit/{bookId}")
     public ModelAndView update(@Validated BookUpdateRequest request, Errors errors) {
         if (errors.hasErrors()) {
             String errorMessage = errors.getFieldErrors()
@@ -104,11 +104,30 @@ public class BookController {
      * @param bookId 삭제할 책의 id
      * @return 책 목록 페이지로 이동
      */
-    @RequestMapping( method = RequestMethod.POST, value = "/book/delete")
+    @RequestMapping( method = RequestMethod.POST, value = "/delete")
     public String delete(@RequestParam("bookId") Integer bookId) throws NoSuchElementException {
         System.out.println("bookId = " + bookId);
         this.bookService.deleteBook(bookId);
         return "redirect:/book/list";
+    }
+
+    /**
+     * 책 목록 페이지로 이동한다.
+     * @param title 검색할 책 제목
+     * @param page 페이지 번호
+     * @param mav ModelAndView 객체
+     * @return 책 목록 페이지
+     */
+    @RequestMapping( method = RequestMethod.GET, value = {"/list", ""})
+    public ModelAndView bookList(@RequestParam(value = "title", required = false) String title,
+                                 @RequestParam(value = "page", required = false) Integer page,
+                                 @RequestParam(value = "size", required = false) Integer size,
+                                 @RequestParam(value = "direction", required = false, defaultValue = "DESC") Sort.Direction direction,
+                                 ModelAndView mav) {
+        mav.setViewName("book/list");
+        List<BookListResponse> books = this.bookService.searchBooks(title, page, size, direction);
+        mav.addObject("books", books);
+        return mav;
     }
 
     /**

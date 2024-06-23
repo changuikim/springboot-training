@@ -1,19 +1,20 @@
 package com.spring.onedayboot.book.dto;
 
 import com.spring.onedayboot.book.entity.Book;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class BookCreateRequest {
 
-    @NonNull
+    @NotBlank
     private String title;
 
-    @NonNull
-    private Integer price;
+    @Min(100)
+    private Long price;
 
     /**
      * BookCreateRequest 객체를 Book 객체로 변환한다.

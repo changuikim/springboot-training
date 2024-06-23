@@ -42,7 +42,7 @@ public class BookController {
      */
     @RequestMapping( method = RequestMethod.POST, value = "/create")
     public String create(BookCreateRequest request) {
-        Integer bookId = this.bookService.createBook(request);
+        Long bookId = this.bookService.createBook(request);
         return String.format("redirect:/book/read/%d", bookId);
     }
 
@@ -52,7 +52,7 @@ public class BookController {
      * @return 책 조회 페이지
      */
     @RequestMapping( method = RequestMethod.GET, value = "/read/{bookId}")
-    public ModelAndView read(@PathVariable Integer bookId) {
+    public ModelAndView read(@PathVariable Long bookId) {
         ModelAndView mav = new ModelAndView();
         try {
             BookReadResponse response = this.bookService.readBook(bookId);
@@ -73,7 +73,7 @@ public class BookController {
      * @return 책 수정 페이지
      */
     @RequestMapping( method = RequestMethod.GET, value = "/edit/{bookId}")
-    public ModelAndView edit(@PathVariable Integer bookId) throws NoSuchElementException {
+    public ModelAndView edit(@PathVariable Long bookId) throws NoSuchElementException {
         ModelAndView mav = new ModelAndView();
         BookEditResponse response = this.bookService.editBook(bookId);
         mav.setViewName("book/edit");
@@ -105,7 +105,7 @@ public class BookController {
      * @return 책 목록 페이지로 이동
      */
     @RequestMapping( method = RequestMethod.POST, value = "/delete")
-    public String delete(@RequestParam("bookId") Integer bookId) throws NoSuchElementException {
+    public String delete(@RequestParam("bookId") Long bookId) throws NoSuchElementException {
         System.out.println("bookId = " + bookId);
         this.bookService.deleteBook(bookId);
         return "redirect:/book/list";

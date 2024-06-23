@@ -32,7 +32,7 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     @Transactional
-    public Integer createBook(BookCreateRequest request) {
+    public Long createBook(BookCreateRequest request) {
         try {
             Book book = request.toEntity();
             Book savedBook = this.bookRepository.save(book);
@@ -49,7 +49,7 @@ public class BookServiceImpl implements BookService {
      * @throws NoSuchElementException 조회된 책이 없을 때
      */
     @Override
-    public BookReadResponse readBook(Integer bookId) throws NoSuchElementException {
+    public BookReadResponse readBook(Long bookId) throws NoSuchElementException {
         Book book = this.bookRepository.findById(bookId)
                 .orElseThrow(() -> new NoSuchElementException("책 정보를 찾을 수 없습니다."));
         return BookReadResponse.fromBook(book);
@@ -62,7 +62,7 @@ public class BookServiceImpl implements BookService {
      * @throws NoSuchElementException 수정할 책이 없을 때
      */
     @Override
-    public BookEditResponse editBook(Integer bookId) throws NoSuchElementException {
+    public BookEditResponse editBook(Long bookId) throws NoSuchElementException {
         Book book = this.bookRepository.findById(bookId)
                 .orElseThrow(() -> new NoSuchElementException("책 정보를 찾을 수 없습니다."));
         return BookEditResponse.fromBook(book);
@@ -87,7 +87,7 @@ public class BookServiceImpl implements BookService {
      * @throws NoSuchElementException 삭제할 책이 없을 때
      */
     @Override
-    public void deleteBook(Integer bookId) throws NoSuchElementException {
+    public void deleteBook(Long bookId) throws NoSuchElementException {
         Book book = this.bookRepository.findById(bookId)
                 .orElseThrow(() -> new NoSuchElementException("책 정보를 찾을 수 없습니다."));
         this.bookRepository.delete(book);

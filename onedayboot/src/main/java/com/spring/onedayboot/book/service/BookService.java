@@ -12,7 +12,7 @@ public interface BookService {
      * @param request 책 등록 정보를 담은 DTO
      * @return 등록된 책의 id
      */
-    public Integer createBook(BookCreateRequest request);
+    public Long createBook(BookCreateRequest request);
 
     /**
      * 책을 조회한다.
@@ -20,7 +20,7 @@ public interface BookService {
      * @return 조회된 책 정보를 담은 DTO
      * @throws NoSuchElementException 조회된 책이 없을 때
      */
-    public BookReadResponse readBook(Integer bookId) throws NoSuchElementException;
+    public BookReadResponse readBook(Long bookId) throws NoSuchElementException;
 
     /**
      * 수정할 책을 조회한다.
@@ -28,7 +28,7 @@ public interface BookService {
      * @return 수정할 책의 정보를 담은 DTO
      * @throws NoSuchElementException 수정할 책이 없을 때
      */
-    public BookEditResponse editBook(Integer bookId) throws NoSuchElementException;
+    public BookEditResponse editBook(Long bookId) throws NoSuchElementException;
 
     /**
      * 책 정보를 수정한다.
@@ -42,7 +42,7 @@ public interface BookService {
      * @param bookId 삭제할 책의 id
      * @throws NoSuchElementException 삭제할 책이 없을 때
      */
-    public void deleteBook(Integer bookId) throws NoSuchElementException;
+    public void deleteBook(Long bookId) throws NoSuchElementException;
 
     /**
      * 책을 검색한다.

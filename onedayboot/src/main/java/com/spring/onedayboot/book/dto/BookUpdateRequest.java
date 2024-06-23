@@ -14,7 +14,7 @@ public class BookUpdateRequest {
 
     @NonNull
     @Positive
-    private Integer bookId;
+    private Long bookId;
 
     @NonNull
     @NotBlank
@@ -22,7 +22,7 @@ public class BookUpdateRequest {
 
     @NonNull
     @Min(100)
-    private Integer price;
+    private Long price;
 
     /**
      * Book 객체의 필드를 업데이트한 새 Book 객체를 반환한다.
